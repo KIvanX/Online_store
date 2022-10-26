@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1 class="title">{{ title }}</h1>
+    <div><form>
+        <p>Имя: <label><input name="name"></input></label></p>
+        <p>Страна: <label><input name="country"></input></label></p>
+        <p>Рейтинг: <label><input name="rating"></input></label></p>
+        <button type="submit">Добавить</button>
+    </form></div>
+{% endblock %}

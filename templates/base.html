@@ -1,41 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <style>
-        .title {
-            {% if theme == 'dark' %} color: #FFF;
-            {% else %} color: #000;
-            {% endif %}
-        }
-        #body {
-            {% if theme == 'dark' %} background: #111;
-            {% else %} background: #EEE;
-            {% endif %}
-        }
-        div {
-            {% if theme == 'dark' %}
-                background-color: #008558;
-                color: #FFF;
-            {% else %}
-                background-color: #7fffd4;
-                color: #ooo;
-            {% endif %}
-            border: 1px solid #000;
-            margin: 10px;
-            width: 200px;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <title>Магазин</title>
 </head>
 <body id="body">
-    {#
-        базовый шаблон, который используют остальные шаблоны
-        имеет общую структуру, чтобы не дублировать код
-
-        инициируем блок body, который переопределяется в шаблонах
-    #}
     {% block body %}{% endblock %}
 </body>
 </html>

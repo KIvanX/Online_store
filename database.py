@@ -4,7 +4,7 @@ import psycopg2
 class Database:
     def __init__(self):
         self.con = psycopg2.connect(
-            dbname="lesson5DB",
+            dbname="Online_store",
             user="postgres",
             password="pass",
             host="localhost",

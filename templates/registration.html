@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-<title>Авторизация</title>
+<title>Регистрация</title>
 {% endblock %}
 
 {% block style %}
@@ -38,12 +38,17 @@
             <div class="col-12 col-md-9 col-lg-7 col-xl-6">
               <div class="card" style="border-radius: 15px;">
                 <div class="card-body p-5">
-                  <h2 class="text-uppercase text-center mb-5">Авторизация</h2>
+                  <h2 class="text-uppercase text-center mb-5">Создание аккаунта</h2>
 
                   <form id="form" method="post">
 
                     <div class="form-outline mb-4">
-                      <input id="email" type="text" name="email" class="form-control form-control-lg" />
+                      <input id="name" type="text" name="name" class="form-control form-control-lg" />
+                      <label class="form-label" for="name">Имя</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input id="email" type="email" name="email" class="form-control form-control-lg" />
                       <label class="form-label" for="email">Email</label>
                     </div>
 
@@ -52,13 +57,25 @@
                       <label class="form-label" for="password">Пароль</label>
                     </div>
 
-                    <div class="d-flex justify-content-center">
-                      <button id="submit_button" type="submit"
-                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Авторизация</button>
+                    <div class="form-outline mb-4">
+                      <input id="password2" type="password" name="password2" class="form-control form-control-lg" />
+                      <label class="form-label" for="password2">Повторите пароль</label>
                     </div>
 
-                    <p class="text-center text-muted mt-5 mb-0">Нет аккаунта? <a href="{{url_for('registration')}}"
-                        class="fw-bold text-body"><u>Зарегистрируйтесь здесь</u></a></p>
+                    <div class="form-check d-flex justify-content-center mb-5">
+                      <input class="form-check-input me-2" type="checkbox" value="" id="checkbox" />
+                      <label class="form-check-label" for="checkbox">
+                        Я согласен(а) с правилами сайта <a href="#!" class="text-body"><u>Озон экспресс</u></a>
+                      </label>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                      <button id="submit_button" type="submit"
+                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Регистрация</button>
+                    </div>
+
+                    <p class="text-center text-muted mt-5 mb-0">Уже есть аккаунт? <a href="{{url_for('authorization')}}"
+                        class="fw-bold text-body"><u>Авторизируйтесь здесь</u></a></p>
 
                   </form>
                 </div>
@@ -76,11 +93,14 @@
         $('#submit_button').on('click', function (e) {
             e.preventDefault();
             $.ajax({
-                url: '{{ url_for("authorization") }}',
+                url: '{{ url_for("registration") }}',
                 method: 'get',
                 dataType: 'html',
-                data: {'email': document.getElementById('email').value,
-                       'password': document.getElementById('password').value},
+                data: {'name': document.getElementById('name').value,
+                       'email': document.getElementById('email').value,
+                       'password': document.getElementById('password').value,
+                       'password2': document.getElementById('password2').value,
+                       'checkbox': document.getElementById('checkbox').checked},
                 success: function (data) {
                   data = JSON.parse(data)
                   if (data['status'] === 'error') {alert(data['message'])}

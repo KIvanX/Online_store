@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-<title>Авторизация</title>
+<title>Профиль</title>
 {% endblock %}
 
 {% block style %}
@@ -38,28 +38,29 @@
             <div class="col-12 col-md-9 col-lg-7 col-xl-6">
               <div class="card" style="border-radius: 15px;">
                 <div class="card-body p-5">
-                  <h2 class="text-uppercase text-center mb-5">Авторизация</h2>
+                  <h2 class="text-uppercase text-center mb-5">Профиль</h2>
 
-                  <form id="form" method="post">
+                  <form method="post">
 
                     <div class="form-outline mb-4">
-                      <input id="email" type="text" name="email" class="form-control form-control-lg" />
+                      <input id="name" type="text" name="name" class="form-control form-control-lg" value="{{user.name}}"/>
+                      <label class="form-label" for="name">Имя</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input id="email" type="email" name="email" class="form-control form-control-lg" value="{{user.email}}"/>
                       <label class="form-label" for="email">Email</label>
                     </div>
 
                     <div class="form-outline mb-4">
-                      <input id="password" type="password" name="password" class="form-control form-control-lg" />
+                      <input id="password" name="password" class="form-control form-control-lg" value="{{user.password}}"/>
                       <label class="form-label" for="password">Пароль</label>
                     </div>
 
                     <div class="d-flex justify-content-center">
-                      <button id="submit_button" type="submit"
-                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Авторизация</button>
+                      <button type="submit"
+                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Изменить профиль</button>
                     </div>
-
-                    <p class="text-center text-muted mt-5 mb-0">Нет аккаунта? <a href="{{url_for('registration')}}"
-                        class="fw-bold text-body"><u>Зарегистрируйтесь здесь</u></a></p>
-
                   </form>
                 </div>
               </div>
@@ -68,25 +69,4 @@
         </div>
       </div>
     </section>
-{% endblock %}
-
-{% block script %}
-    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
-    <script>
-        $('#submit_button').on('click', function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: '{{ url_for("authorization") }}',
-                method: 'get',
-                dataType: 'html',
-                data: {'email': document.getElementById('email').value,
-                       'password': document.getElementById('password').value},
-                success: function (data) {
-                  data = JSON.parse(data)
-                  if (data['status'] === 'error') {alert(data['message'])}
-                  else {document.getElementById('form').submit()}
-                }
-            })
-        })
-    </script>
 {% endblock %}

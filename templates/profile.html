@@ -35,39 +35,46 @@
       <div class="mask d-flex align-items-center h-100 gradient-custom-3">
         <div class="container h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div class="col-12 col-md-7">
               <div class="card" style="border-radius: 15px;">
                 <div class="card-body p-5">
                   <h2 class="text-uppercase text-center mb-5">Профиль</h2>
 
-                  <form method="post">
-                    <h4 class="text-center">Личные данные</h4>
+                  <div class="row">
+                    <div class="col-8">
+                      <form class="col-6" method="post">
+                        <h4 class="text-center">Личные данные</h4>
 
-                    <div class="form-outline mb-4">
-                      <input id="name" type="text" name="name" class="form-control form-control-lg" value="{{user.name}}"/>
-                      <label class="form-label" for="name">Имя</label>
+                        <div class="form-outline mb-4">
+                          <input id="name" type="text" name="name" class="form-control form-control-lg" value="{{user.name}}"/>
+                          <label class="form-label" for="name">Имя</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                          <input id="email" type="email" name="email" class="form-control form-control-lg" value="{{user.email}}"/>
+                          <label class="form-label" for="email">Email</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                          <input id="password" name="password" class="form-control form-control-lg" value="{{user.password}}"/>
+                          <label class="form-label" for="password">Пароль</label>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                          <button type="submit"
+                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Изменить профиль</button>
+                        </div>
+                      </form>
                     </div>
 
-                    <div class="form-outline mb-4">
-                      <input id="email" type="email" name="email" class="form-control form-control-lg" value="{{user.email}}"/>
-                      <label class="form-label" for="email">Email</label>
+                    <div class="col-4">
+                      <h4 class="text-center ">Мои заказы</h4>
+                      {% for order in orders %}
+                        <p><a class="btn btn-labeled btn-xs btn-info" href="{{url_for('order', order_id=order['order_id'])}}">Заказ {{order.date}}</a></p>
+                      {% endfor %}
                     </div>
+                  </div>
 
-                    <div class="form-outline mb-4">
-                      <input id="password" name="password" class="form-control form-control-lg" value="{{user.password}}"/>
-                      <label class="form-label" for="password">Пароль</label>
-                    </div>
-
-                    <h4 class="text-center">Мои заказы</h4>
-                    {% for order in orders %}
-                      <p><a class="btn btn-labeled btn-xs btn-info" href="{{url_for('order', order_id=order['order_id'])}}">Заказ {{order.date}}</a></p>
-                    {% endfor %}
-
-                    <div class="d-flex justify-content-center">
-                      <button type="submit"
-                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Изменить профиль</button>
-                    </div>
-                  </form>
                 </div>
               </div>
             </div>

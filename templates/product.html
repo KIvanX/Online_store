@@ -11,7 +11,7 @@
       <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
           <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-            <span class="fs-4">OzonExpress</span>
+            <img src="/static/logo.png" style="width: 250px">
           </a>
 
           <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
@@ -27,6 +27,8 @@
         </div>
       </header>
 
+      <div class="text-center" style="position: absolute; z-index: 999999" id="MyAlertBlock"></div>
+
       <div class="mx-1 card g-2 text-center mx-auto" style="width: 30rem;">
         <img src="/static/product{{product.id}}.jpg" style="border-radius: 10px;" class="card-img-top">
         <div class="card-body my-auto">
@@ -37,8 +39,6 @@
           <button onclick="add_to_favourites('{{user.name}}', {{product.id}})" class="btn btn-labeled btn-danger"><span class="btn-label"><i class="fa fa-thumbs-up"></i></span></button>
         </div>
       </div>
-
-
 
       <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
@@ -83,36 +83,6 @@
 {% block script %}
     <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
     <script>
-        function add_to_basket(user_name, product_id) {
-          if (user_name === 'Гость') {
-            alert('Необходимо авторизироваться, чтобы купить этот товар')
-            return 0
-          }
-          $.ajax({
-              url: '{{ url_for("add_to_basket") }}',
-              method: 'get',
-              dataType: 'html',
-              data: {'product_id': product_id},
-              success: function (data) {
-                alert(JSON.parse(data)['message'])
-              }
-          })
-        }
-
-        function add_to_favourites(user_name, product_id) {
-          if (user_name === 'Гость') {
-            alert('Необходимо авторизироваться, чтобы добавить в Избранное')
-            return 0
-          }
-          $.ajax({
-              url: '{{ url_for("add_to_favourites") }}',
-              method: 'get',
-              dataType: 'html',
-              data: {'product_id': product_id},
-              success: function (data) {
-                alert(JSON.parse(data)['message'])
-              }
-          })
-        }
+        MyAlertBlock = document.getElementById('MyAlertBlock')
     </script>
 {% endblock %}

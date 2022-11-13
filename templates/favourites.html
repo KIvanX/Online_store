@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Избранное</title>
+{% endblock %}
+
+{% block body %}
+<body>
+
+    <div class="container py-3">
+      <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+          <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+            <span class="fs-4">OzonExpress</span>
+          </a>
+
+          <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('profile')}}">Корзина</a>
+            {% if user.email == 'admin@OzonExpress.ru' %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('add_product')}}">Добавить товар</a>
+            {% endif %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('registration')}}">Регистрация</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('authorization')}}">Авторизация</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('favourites')}}">Избранное</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('basket')}}">Корзина</a>
+            <a class="me-5 py-2" href="{{url_for('profile')}}">{{user['name']}}</a>
+          </nav>
+        </div>
+      </header>
+
+      <div class="text-center" style="position: absolute; z-index: 999999" id="MyAlertBlock"></div>
+
+      <main>
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+          {%for p in user_products%}
+            <div class="mx-1 card g-2" style="width: 18rem;">
+              <a href="{{ url_for('product', product_id=p.id) }}">
+              <img src="/static/product{{p.id}}.jpg" style="object-fit: cover; height: 300px; border-radius: 10px;" class="card-img-top"></a>
+              <div class="card-body my-auto">
+                <h5 class="card-title">{{p.name}}</h5>
+                <h3 class="card-title">{{p.price}} руб</h3>
+                <p><button onclick="add_to_basket('{{user.name}}', {{p.id}})" class="btn btn-primary btn-lg">Купить</button></p>
+                <a href="{{ url_for('delete_from_favourites', product_id=p.id) }}" class="btn btn-labeled btn-danger"><span class="btn-label"><i class="fa fa-trash"></i></span>Удалить из Избранного</a>
+              </div>
+            </div>
+          {%endfor%}
+        </div>
+      </main>
+
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+          <div class="col-12 col-md">
+            <small class="d-block mb-3 text-muted">© 2017–2022</small>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Stuff for developers</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+</body>
+{% endblock %}
+
+{% block script %}
+    <script>
+      MyAlertBlock = document.getElementById('MyAlertBlock')
+    </script>
+{% endblock %}

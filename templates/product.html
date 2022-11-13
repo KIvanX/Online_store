@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>{{product.name}}</title>
+{% endblock %}
+
+{% block body %}
+<body>
+
+    <div class="container py-3">
+      <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+          <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+            <span class="fs-4">OzonExpress</span>
+          </a>
+
+          <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+            {% if user.email == 'admin@OzonExpress.ru' %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('add_product')}}">Добавить товар</a>
+            {% endif %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('registration')}}">Регистрация</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('authorization')}}">Авторизация</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('favourites')}}">Избранное</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('basket')}}">Корзина</a>
+            <a class="me-5 py-2" href="{{url_for('profile')}}">{{user['name']}}</a>
+          </nav>
+        </div>
+      </header>
+
+      <div class="mx-1 card g-2 text-center mx-auto" style="width: 30rem;">
+        <img src="/static/product{{product.id}}.jpg" style="border-radius: 10px;" class="card-img-top">
+        <div class="card-body my-auto">
+          <h5 class="card-title">{{product.name}}</h5>
+          <h3 class="card-title">{{product.price}} руб</h3>
+          <p><label>{{product.about}}</label></p>
+          <button onclick="add_to_basket('{{user.name}}', {{product.id}})" class="btn btn-primary btn-lg">Купить</button>
+          <button onclick="add_to_favourites('{{user.name}}', {{product.id}})" class="btn btn-labeled btn-danger"><span class="btn-label"><i class="fa fa-thumbs-up"></i></span></button>
+        </div>
+      </div>
+
+
+
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+          <div class="col-12 col-md">
+            <small class="d-block mb-3 text-muted">© 2017–2022</small>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Stuff for developers</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+</body>
+{% endblock %}
+
+{% block script %}
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <script>
+        function add_to_basket(user_name, product_id) {
+          if (user_name === 'Гость') {
+            alert('Необходимо авторизироваться, чтобы купить этот товар')
+            return 0
+          }
+          $.ajax({
+              url: '{{ url_for("add_to_basket") }}',
+              method: 'get',
+              dataType: 'html',
+              data: {'product_id': product_id},
+              success: function (data) {
+                alert(JSON.parse(data)['message'])
+              }
+          })
+        }
+
+        function add_to_favourites(user_name, product_id) {
+          if (user_name === 'Гость') {
+            alert('Необходимо авторизироваться, чтобы добавить в Избранное')
+            return 0
+          }
+          $.ajax({
+              url: '{{ url_for("add_to_favourites") }}',
+              method: 'get',
+              dataType: 'html',
+              data: {'product_id': product_id},
+              success: function (data) {
+                alert(JSON.parse(data)['message'])
+              }
+          })
+        }
+    </script>
+{% endblock %}

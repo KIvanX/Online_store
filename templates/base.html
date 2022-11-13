@@ -6,12 +6,82 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
 
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <script>
+        function add_to_basket(user_name, product_id) {
+          $.ajax({
+              url: '{{ url_for("add_to_basket") }}',
+              method: 'get',
+              dataType: 'html',
+              data: {'product_id': product_id},
+              success: function (data) {
+                  res = JSON.parse(data)
+                  animationAlert(res['message'], res['status'])
+              }
+          })
+        }
+
+        function add_to_favourites(user_name, product_id) {
+          if (user_name === 'Гость') {
+            animationAlert('Необходимо авторизироваться, чтобы добавить в Избранное', 'warning')
+            return 0
+          }
+          $.ajax({
+              url: '{{ url_for("add_to_favourites") }}',
+              method: 'get',
+              dataType: 'html',
+              data: {'product_id': product_id},
+              success: function (data) {
+                  res = JSON.parse(data)
+                  animationAlert(res['message'], res['status'])
+              }
+          })
+        }
+
+        let inter1
+        let inter2
+        function animationAlert(message, type) {
+            clearInterval(inter1)
+            clearInterval(inter2)
+            MyAlertBlock.style.top = '0px'
+            let offset = -MyAlertBlock.getBoundingClientRect().top;
+            let top = offset
+            let deg = 0
+            MyAlertBlock.style.width = '90%'
+            MyAlertBlock.style.transform = "rotate(0)";
+            MyAlertBlock.style.left = '5%'
+            MyAlertBlock.innerHTML =  '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '</div>'
+            inter1 = setInterval(anim, 1)
+            function anim() {
+                if (top < 300 + offset) {
+                    MyAlertBlock.style.top = top + 'px';
+                    top += 1
+                } else {
+                    clearInterval(inter1)
+                    MyAlertBlock.innerHTML =  '<div class="alert alert-' + type + ' alert-dismissible" role="alert"></div>'
+                    inter2 = setInterval(spin, 1)
+                }
+            }
+            function spin() {
+                if (deg < 180) {
+                    MyAlertBlock.style.transform = "rotate(" + deg + "deg)";
+                    MyAlertBlock.style.width = (90 - deg / 2) + '%'
+                    MyAlertBlock.style.left = deg / 180 * 50 + '%'
+                    deg += 3
+                } else {
+                    clearInterval(inter2)
+                    MyAlertBlock.innerHTML = ''
+                }
+            }
+        }
+    </script>
     {% block title %}{% endblock %}
     {% block style %}{% endblock %}
 </head>

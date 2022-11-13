@@ -41,6 +41,7 @@
                   <h2 class="text-uppercase text-center mb-5">Профиль</h2>
 
                   <form method="post">
+                    <h4 class="text-center">Личные данные</h4>
 
                     <div class="form-outline mb-4">
                       <input id="name" type="text" name="name" class="form-control form-control-lg" value="{{user.name}}"/>
@@ -56,6 +57,11 @@
                       <input id="password" name="password" class="form-control form-control-lg" value="{{user.password}}"/>
                       <label class="form-label" for="password">Пароль</label>
                     </div>
+
+                    <h4 class="text-center">Мои заказы</h4>
+                    {% for order in orders %}
+                      <p><a class="btn btn-labeled btn-xs btn-info" href="{{url_for('order', order_id=order['order_id'])}}">Заказ {{order.date}}</a></p>
+                    {% endfor %}
 
                     <div class="d-flex justify-content-center">
                       <button type="submit"

@@ -22,7 +22,7 @@
             {% if user.name != 'Гость' %}
             <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('favourites')}}">Избранное</a>
             <a class="me-3 py-2 text-dark text-decoration-none" href="{{url_for('basket')}}">Корзина</a>
-            <a class="me-5 py-2" href="{{url_for('profile')}}">{{user['name']}}</a>
+            <a class="me-5 py-2" href="{{url_for('profile')}}">{{user['name']|add_hello()}}</a>
             {% endif %}
           </nav>
         </div>

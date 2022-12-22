@@ -58,15 +58,15 @@
             MyAlertBlock.style.transform = "rotate(0)";
             MyAlertBlock.style.left = '5%'
             MyAlertBlock.innerHTML =  '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '</div>'
-            inter1 = setInterval(anim, 1)
+            inter1 = setInterval(anim, 8)
             function anim() {
                 if (top < 300 + offset) {
                     MyAlertBlock.style.top = top + 'px';
-                    top += 1
+                    top += 2
                 } else {
                     clearInterval(inter1)
                     MyAlertBlock.innerHTML =  '<div class="alert alert-' + type + ' alert-dismissible" role="alert"></div>'
-                    inter2 = setInterval(spin, 1)
+                    inter2 = setInterval(spin, 3)
                 }
             }
             function spin() {

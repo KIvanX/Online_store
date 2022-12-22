@@ -14,6 +14,7 @@ def add_product():
                    'category': request.form.get('category'),
                    'about': request.form.get('about')}
         product_id = db.add_product(product)
+        print(request.files)
         request.files.get('photo').save(f'static/product{product_id}.jpg')
 
         flash('Товар добавлен')

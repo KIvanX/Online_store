@@ -47,7 +47,8 @@ class Database:
                          'id serial not null primary key,'
                          'name varchar(128),'
                          'price float,'
-                         'about varchar(2048));')
+                         'about varchar(2048),'
+                         'category varchar(64));')
 
     def add_product(self, p):
         self.cur.execute('INSERT INTO product VALUES(default, %s, %s, %s, %s) RETURNING id',
